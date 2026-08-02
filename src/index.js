@@ -108,11 +108,31 @@ if (!text || text.trim().length === 0) {
         }
     );
 }
-    const voice = body.voice ?? "alloy";
+    const voice = body.voice ?? "onyx";
     const speed = body.speed ?? 1.0;
     const instructions =
       body.instructions ??
       "Speak clearly in natural Swedish.";
+
+const body = {
+  model,
+  voice,
+  input,
+  instructions,
+  speed
+};
+
+console.log("OpenAI request:");
+console.log(JSON.stringify(body, null, 2));
+
+const response = await fetch("https://api.openai.com/v1/audio/speech", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(body),
+});
 
     const openaiResponse = await fetch(
       "https://api.openai.com/v1/audio/speech",
