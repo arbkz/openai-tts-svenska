@@ -1,0 +1,152 @@
+{
+  "model": "gpt-4o-mini-tts",
+  "voice": "alloy",
+  "format": "mp3",
+  "language": "sv-SE",
+  "style": "repeat-after-me",
+  "speed": 0.9,
+  "repeat_pause_ms": 4000,
+  "closing_pause_ms": 5000,
+  "segments": [
+    {
+      "text": "Hej!",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Dagen var ganska lugn.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi åkte till Kristianstad för att handla lite.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi köpte en ridhjälm till min dotter.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon ska börja rida.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon har en kompis som har hästar.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "De umgås mycket.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon har ridit ett par gånger tidigare.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Men inte på en riktig ridlektion.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon älskar alla sorters djur.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon läser många faktaböcker om djur.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon är verkligen en djurälskare.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hennes favoritdjur är hästar.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Jag tror att balansen blir svårast för henne.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon är också väldigt rädd för insekter.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "När man rider finns det ofta flugor och myggor runt hästarna.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hon blir lätt rädd när hon ser bin, getingar eller flugor.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Jag ska fråga henne i morgon om det finns något som skulle göra ridningen lättare.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Livet känns bra just nu.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi har precis kommit tillbaka från fyra veckors sommarsemester.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi kopplade av med familjen.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi gick på skogspromenader.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi badade i havet.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi njöt av den skånska sommaren.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi åkte runt i Skåne.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi besökte Kristianstad, Yngsjö och Landskrona.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi besökte ett naturreservat.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi promenerade i skogen.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi var i Malmö.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi gick på bio i Lund.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi gjorde många olika aktiviteter runt om i Skåne.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi trivs verkligen här.",
+      "pause_after_ms": 5000
+    },
+    {
+      "text": "Tack för samtalet.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Vi hörs snart igen.",
+      "pause_after_ms": 4000
+    },
+    {
+      "text": "Hej då!",
+      "pause_after_ms": 4000
+    }
+  ]
+}

@@ -31,23 +31,34 @@ export default {
     //
     // Authentication
     //
-    const auth = request.headers.get("Authorization");
+    const auth = request.headers.get("Authorization") || "";
 
-    if (auth !== `Bearer ${env.WORKER_TOKEN}`) {
-
+    if (!auth.startsWith("Bearer ")) {
       return new Response(
-        JSON.stringify({
-          error: "Unauthorized"
-        }),
-        {
-          status: 401,
-          headers: {
-            ...corsHeaders,
-            "Content-Type": "application/json"
+          JSON.stringify({ error: "Missing bearer token" }),
+          {
+              status: 401,
+              headers: {
+                  ...corsHeaders,
+                  "Content-Type": "application/json"
+              }
           }
-        }
       );
+  }
 
+    const token = auth.substring(7);
+
+    if (token !== env.WORKER_TOKEN) {
+        return new Response(
+            JSON.stringify({ error: "Invalid token" }),
+            {
+                status: 401,
+                headers: {
+                    ...corsHeaders,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
     }
 
     let body;
@@ -73,25 +84,30 @@ export default {
 
     }
 
-    const text = body.text;
+   let text = body.text;
 
-    if (!text || text.trim().length === 0) {
+// Support lesson files with segments
+if (!text && Array.isArray(body.segments)) {
+    text = body.segments
+        .map(s => s.text)
+        .filter(Boolean)
+        .join("\n");
+}
 
-      return new Response(
+if (!text || text.trim().length === 0) {
+    return new Response(
         JSON.stringify({
-          error: "Missing text"
+            error: "Missing text"
         }),
         {
-          status: 400,
-          headers: {
-            ...corsHeaders,
-            "Content-Type": "application/json"
-          }
+            status: 400,
+            headers: {
+                ...corsHeaders,
+                "Content-Type": "application/json"
+            }
         }
-      );
-
-    }
-
+    );
+}
     const voice = body.voice ?? "alloy";
     const speed = body.speed ?? 1.0;
     const instructions =
