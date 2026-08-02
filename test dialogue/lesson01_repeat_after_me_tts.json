@@ -4,7 +4,7 @@
   "format": "mp3",
   "language": "sv-SE",
   "style": "repeat-after-me",
-  "speed": 0.9,
+  "speed": 1.0,
   "repeat_pause_ms": 4000,
   "closing_pause_ms": 5000,
   "segments": [
