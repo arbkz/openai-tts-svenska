@@ -114,7 +114,7 @@ if (!text || text.trim().length === 0) {
       body.instructions ??
       "Speak clearly in natural Swedish.";
 
-const body_meta = {
+const body = {
   model,
   voice,
   input,
@@ -123,7 +123,7 @@ const body_meta = {
 };
 
 console.log("OpenAI request:");
-console.log(JSON.stringify(body_meta, null, 2));
+console.log(JSON.stringify(body, null, 2));
 
 const response = await fetch("https://api.openai.com/v1/audio/speech", {
   method: "POST",
