@@ -108,13 +108,12 @@ if (!text || text.trim().length === 0) {
         }
     );
 }
-    const voice = body.voice ?? "alloy";
+    const voice = body.voice ?? "onyx";
     const speed = body.speed ?? 1.0;
     const instructions =
       body.instructions ??
-      "Speak clearly in natural Swedish.";
-
-
+      "Speak entirely in Swedish. Use a natural Malmö (Scanian) accent. Use a deep, warm masculine voice. Speak confidently with relaxed conversational rhythm at a moderately fast pace. Pronounce Swedish vowels and prosody naturally, without an English accent.";
+    
     console.log({
     voice,
     speed,
