@@ -114,6 +114,15 @@ if (!text || text.trim().length === 0) {
       body.instructions ??
       "Speak clearly in natural Swedish.";
 
+
+    console.log({
+    voice,
+    speed,
+    instructions,
+    textLength: text.length,
+    first200: text.substring(0,200)
+});
+
     const openaiResponse = await fetch(
       "https://api.openai.com/v1/audio/speech",
       {
