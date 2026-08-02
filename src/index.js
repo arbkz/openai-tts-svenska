@@ -1,10 +1,9 @@
 export default {
   async fetch(request, env) {
 
-    // Allow browser requests
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Methods": "POST, OPTIONS"
     };
 
@@ -29,11 +28,36 @@ export default {
       );
     }
 
+    //
+    // Authentication
+    //
+    const auth = request.headers.get("Authorization");
+
+    if (auth !== `Bearer ${env.WORKER_TOKEN}`) {
+
+      return new Response(
+        JSON.stringify({
+          error: "Unauthorized"
+        }),
+        {
+          status: 401,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+    }
+
     let body;
 
     try {
+
       body = await request.json();
+
     } catch {
+
       return new Response(
         JSON.stringify({
           error: "Invalid JSON"
@@ -46,11 +70,13 @@ export default {
           }
         }
       );
+
     }
 
     const text = body.text;
 
-    if (!text) {
+    if (!text || text.trim().length === 0) {
+
       return new Response(
         JSON.stringify({
           error: "Missing text"
@@ -63,35 +89,44 @@ export default {
           }
         }
       );
+
     }
 
-    const voice = body.voice || "alloy";
-    const speed = body.speed || 1.0;
+    const voice = body.voice ?? "alloy";
+    const speed = body.speed ?? 1.0;
+    const instructions =
+      body.instructions ??
+      "Speak clearly in natural Swedish.";
 
-    const response = await fetch(
+    const openaiResponse = await fetch(
       "https://api.openai.com/v1/audio/speech",
       {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
+          Authorization: `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
           model: "gpt-4o-mini-tts",
-          voice: voice,
+          voice,
           input: text,
-          response_format: "mp3",
-          speed: speed
+          instructions,
+          speed,
+          response_format: "mp3"
         })
       }
     );
 
-    if (!response.ok) {
+    if (!openaiResponse.ok) {
+
+      const error = await openaiResponse.text();
+
+      console.log(error);
 
       return new Response(
-        await response.text(),
+        error,
         {
-          status: response.status,
+          status: openaiResponse.status,
           headers: {
             ...corsHeaders,
             "Content-Type": "application/json"
@@ -101,7 +136,7 @@ export default {
 
     }
 
-    return new Response(response.body, {
+    return new Response(openaiResponse.body, {
       headers: {
         ...corsHeaders,
         "Content-Type": "audio/mpeg",
