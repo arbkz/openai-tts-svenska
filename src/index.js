@@ -114,13 +114,13 @@ if (!text || text.trim().length === 0) {
       body.instructions ??
       "Speak entirely in Swedish. Use a natural Malmö (Scanian) accent. Use a deep, warm masculine voice. Speak confidently with relaxed conversational rhythm at a moderately fast pace. Pronounce Swedish vowels and prosody naturally, without an English accent.";
     
-    console.log({
+ /*   console.log({
     voice,
     speed,
     instructions,
     textLength: text.length,
     first200: text.substring(0,200)
-});
+}); */
 
     const openaiResponse = await fetch(
       "https://api.openai.com/v1/audio/speech",
