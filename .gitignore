@@ -2,3 +2,4 @@ test.mp3
 *.json
 *.mp3
 test dialogue/worker_secret.txt
+client/config.sh
