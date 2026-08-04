@@ -17,5 +17,5 @@ WORKER_SECRET_FILE="worker_secret.txt"
 WORKER_SECRET=$(cat $WORKER_SECRET_FILE)
 
 
-curl -X POST $TTS_URL   -H "Authorization: Bearer $WORKER_SECRET"   -H "Content-Type: application/json"   --data "@$INPUT_FILE"   --output "$OUTPUT_DIR/$OUTPUT_FILE"
+curl -X POST $TTS_URL   -H "Authorization: Bearer $WORKER_SECRET"   -H "Content-Type: application/json"   --data "@$INPUT_DIR/$INPUT_FILE"   --output "$OUTPUT_DIR/$OUTPUT_FILE"
 cp "$INPUT_DIR/$INPUT_FILE" "$OUTPUT_DIR/$OUTPUT_FILE"
