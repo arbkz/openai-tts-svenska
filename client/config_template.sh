@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-# config.sh
+# rename to config.sh and set your variables 
 
 # set -x
 
