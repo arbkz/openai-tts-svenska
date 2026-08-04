@@ -3,3 +3,5 @@ test.mp3
 *.mp3
 test dialogue/worker_secret.txt
 client/config.sh
+client/my_work_corrected.txt
+client/test.txt

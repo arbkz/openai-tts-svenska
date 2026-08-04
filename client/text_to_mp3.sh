@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# dependencies ffmpeg and jq
+
+# in windows install with
+# $ winget install "FFmpeg (Essentials Build)"
+# $ winget install "jq"
+
+
 set -euo pipefail
 
 source config.sh
