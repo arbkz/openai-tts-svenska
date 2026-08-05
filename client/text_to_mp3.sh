@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-# dependencies ffmpeg and jq
-
-# in windows install with
-# $ winget install "FFmpeg (Essentials Build)"
-# $ winget install "jq"
-
+# Dependencies:
+#   ffmpeg
+#   jq
+#
+# Windows:
+#   winget install "FFmpeg (Essentials Build)"
+#   winget install "jqlang.jq"
 
 set -euo pipefail
 
@@ -23,10 +24,30 @@ if [[ ! -f "$INPUT_FILE" ]]; then
     exit 1
 fi
 
-OUTPUT_PREFIX="${INPUT_FILE%.*}_"
+LESSON_NAME="${INPUT_FILE%.*}"
+OUTPUT_PREFIX="${LESSON_NAME}_"
 
+CONTINUOUS_LIST=".continuous.txt"
+SHADOW_LIST=".shadow.txt"
+
+PAUSE_SECONDS=$(awk "BEGIN {print $PAUSE_MS/1000}")
+SILENCE_FILE="silence.mp3"
+
+echo "Generating ${PAUSE_MS}ms silence..."
+
+ffmpeg \
+    -loglevel error \
+    -f lavfi \
+    -i anullsrc=r=24000:cl=mono \
+    -t "$PAUSE_SECONDS" \
+    -q:a 9 \
+    "$SILENCE_FILE"
+
+FIRST=true
 i=1
 
+grep -v '^[[:space:]]*$' "$INPUT_FILE" |
+tr -d '\r' |
 while IFS= read -r TEXT || [[ -n "$TEXT" ]]
 do
     # Skip blank lines
@@ -47,15 +68,66 @@ do
             speed: $speed,
             instructions: $instructions
         }' |
-    curl --silent --show-error \
+    curl \
+        --silent \
+        --show-error \
         -X POST "$TTS_URL" \
         -H "Authorization: Bearer $WORKER_SECRET" \
         -H "Content-Type: application/json" \
         --data @- \
         --output "$OUTPUT_FILE"
 
+    #
+    # Continuous lesson
+    #
+    echo "file '$OUTPUT_FILE'" >> "$CONTINUOUS_LIST"
+
+    #
+    # Shadow lesson
+    #
+    if ! $FIRST
+    then
+        echo "file '$SILENCE_FILE'" >> "$SHADOW_LIST"
+    fi
+
+    echo "file '$OUTPUT_FILE'" >> "$SHADOW_LIST"
+
+    FIRST=false
     ((i++))
 
-done < "$INPUT_FILE"
+    sleep 1
 
-echo "Done."
+done
+
+echo
+echo "Generating ${LESSON_NAME}_continuous.mp3..."
+
+ffmpeg \
+    -loglevel error \
+    -f concat \
+    -safe 0 \
+    -i "$CONTINUOUS_LIST" \
+    -c copy \
+    "${LESSON_NAME}_continuous.mp3"
+
+echo
+echo "Generating ${LESSON_NAME}_shadow.mp3..."
+
+ffmpeg \
+    -loglevel error \
+    -f concat \
+    -safe 0 \
+    -i "$SHADOW_LIST" \
+    -c copy \
+    "${LESSON_NAME}_shadow.mp3"
+
+rm -f \
+    "$CONTINUOUS_LIST" \
+    "$SHADOW_LIST" \
+    "$SILENCE_FILE"
+
+echo
+
+rm -f "$CONTINUOUS_LIST" "$SHADOW_LIST"
+
+echo "Finished."
